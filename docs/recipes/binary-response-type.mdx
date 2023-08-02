@@ -12,10 +12,15 @@ Here is an example of a mocked response that sends a local image:
 
 ```js showLineNumbers focusedLines=6-9,12-15
 import { setupWorker, rest } from 'msw'
+// Vite
+import xlsxUrl froom './excel/template.xlsx?url'
+// Webpack
 import base64Image from '!url-loader!../fixtures/image.jpg'
 
 const worker = setupWorker(
   rest.get('/images/:imageId', async (_, res, ctx) => {
+    // Convert xlsx file to "ArrayBuffer"
+    const xlsxBuffer = await fetch(xlsxUrl).then((res) => res.arrayBuffer())
     // Convert "base64" image to "ArrayBuffer".
     const imageBuffer = await fetch(base64Image).then((res) =>
       res.arrayBuffer(),
