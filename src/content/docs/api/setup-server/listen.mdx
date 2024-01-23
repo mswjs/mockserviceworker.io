@@ -59,8 +59,16 @@ The pre-defined strategies are available as the second argument of the custom ca
 ```js
 server.listen({
   onUnhandledRequest(request, print) {
+
+    const url = new URL(request.url)
+
     // Ignore requests to fetch static assets.
-    if (request.url.pathname.includes('/assets/')) {
+    if (url.pathname.includes('/assets/')) {
+      return
+    }
+
+    // Skip non-server API requests
+    if (url.origin !== process.env.API_URL) {
       return
     }
 
