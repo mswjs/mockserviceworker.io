@@ -16,12 +16,12 @@ export function MobileMenu({ children }: { children: ReactNode }) {
   return (
     <>
       <button
-        className="px-2 py-1 hover:text-white transition-colors"
+        className="px-2 py-1 hover:text-black dark:hover:text-white transition-colors"
         aria-labelledby="Menu"
         onClick={handleMenuClick}
       >
         {isOpen ? (
-          <CloseIcon className="w-[22px] text-white" />
+          <CloseIcon className="w-[22px] text-black dark:text-white" />
         ) : (
           <MenuIcon className="w-[22px]" />
         )}

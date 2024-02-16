@@ -12,7 +12,7 @@ const { headings, isNested } = Astro.props
 <ul class:list={[{ 'ml-3': isNested }]}>
   {headings.map((heading) => (
     <li>
-      <a href={`#${heading.slug}`} class="inline-block text-neutral-400 py-1.5 leading-5 hover:text-white">{heading.text}</a>
+      <a href={`#${heading.slug}`} class="inline-block text-neutral-500 dark:text-neutral-400 py-1.5 leading-5 hover:text-black dark:hover:text-white">{heading.text}</a>
       {heading.children ? (
         <Astro.self headings={heading.children} isNested={true} />
       ) : null}

@@ -42,7 +42,7 @@ export function FeedbackWidget({ pageTitle }: { pageTitle: string }) {
   }
 
   return (
-    <aside className="mt-10 px-5 py-4 border border-neutral-700 bg-neutral-800 bg-opacity-40 rounded-md">
+    <aside className="mt-10 px-5 py-4 border-neutral-200 bg-white border dark:border-neutral-700 dark:bg-neutral-800 bg-opacity-40 rounded-md">
       <header className="flex flex-col md:flex-row items-center justify-between gap-4">
         <p className="text-center mb-0 font-bold">Was this helpful?</p>
         <ol className="flex items-center justify-center gap-5 text-2xl">
@@ -76,7 +76,7 @@ export function FeedbackWidget({ pageTitle }: { pageTitle: string }) {
         </ol>
       </header>
       {feedback != null ? (
-        <div className="mt-5 mb-1 pt-5 border-t border-neutral-800 text-neutral-300 space-y-5">
+        <div className="mt-5 mb-1 pt-5 border-t border-neutral-200 text-neutral-500 dark:border-neutral-800 dark:text-neutral-300 space-y-5">
           {feedback === 'great' ? (
             <>
               <p>
@@ -85,7 +85,7 @@ export function FeedbackWidget({ pageTitle }: { pageTitle: string }) {
                 prove that open-source projects can have stellar documentation
                 without VC funding or a paid product behind it.
               </p>
-              <p className="p-4 text-white font-medium bg-neutral-800 rounded-sm">
+              <p className="p-4  font-medium bg-neutral-100 text-neutral-800 dark:bg-neutral-600 dark:text-white rounded-sm">
                 If this page answered your question or helped you solve an
                 issue, please consider{' '}
                 <a
@@ -139,8 +139,8 @@ function FeedbackButton({
     <button
       className={cls(
         'flex items-center justify-center w-12 h-12 p-3 rounded-sm',
-        !actualValue && 'hover:bg-neutral-700',
-        actualValue === value && 'bg-neutral-700',
+        !actualValue && 'hover:bg-neutral-200 dark:hover:bg-neutral-700',
+        actualValue === value && 'bg-neutral-200 dark:bg-neutral-700',
         !!actualValue && actualValue !== value && 'opacity-40 grayscale'
       )}
       onClick={onClick}

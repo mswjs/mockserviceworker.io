@@ -13,7 +13,7 @@ export function Quote({
   imageUrl: string
 }): JSX.Element {
   return (
-    <figure className="p-5 md:p-10 border rounded-md border-neutral-800">
+    <figure className="p-5 md:p-10 border rounded-md border-neutral-200 dark:border-neutral-800">
       <blockquote className="font-medium">{children}</blockquote>
       <figcaption className="relative flex items-center gap-3 mt-8">
         <Avatar name={author} url={imageUrl} className="w-14 h-14">

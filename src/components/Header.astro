@@ -1,10 +1,11 @@
 ---
-import NavLink from './NavLink.astro';
-import { Container } from './react/container';
 import mswLogo from '../images/msw.svg'
-import Search from './Search.astro';
-import { MobileMenu } from './react/mobileMenu';
-import { SponsorLink } from './react/sponsorLink';
+import NavLink from './NavLink.astro'
+import Search from './Search.astro'
+import { Container } from './react/container'
+import { MobileMenu } from './react/mobileMenu'
+import { SponsorLink } from './react/sponsorLink'
+import { ThemeToggle } from './react/themeToggle'
 
 type Props = {
   isFluid?: boolean
@@ -13,9 +14,13 @@ type Props = {
 const { isFluid } = Astro.props
 ---
 
-<header class="header sticky top-0 z-10 text-sm h-[60px] font-semibold bg-neutral-900 border-b h-15 border-neutral-800">
+<header
+  class="header sticky top-0 z-10 text-sm h-[60px] font-semibold bg-white dark:bg-neutral-900 border-b h-15 border-neutral-200 dark:border-neutral-800"
+>
   <Container isFluid={isFluid} className="h-full">
-    <div class="grid items-center h-full xl:grid-cols-12 gap-6 md:gap-16 grid-cols-[auto_1fr_auto]">
+    <div
+      class="grid items-center h-full xl:grid-cols-12 gap-6 md:gap-16 grid-cols-[auto_1fr_auto]"
+    >
       <div class="xl:col-span-2 flex">
         <a
           href="/"
@@ -25,10 +30,12 @@ const { isFluid } = Astro.props
           <img src={mswLogo.src} class="w-9 h-9" />
         </a>
       </div>
-      <div class:list={[
-        'xl:col-span-3 pl-3 xl:p-0',
-        {'xl:col-start-4': isFluid }
-      ]}>
+      <div
+        class:list={[
+          'xl:col-span-3 pl-3 xl:p-0',
+          { 'xl:col-start-4': isFluid },
+        ]}
+      >
         <Search />
       </div>
       <nav
@@ -41,31 +48,26 @@ const { isFluid } = Astro.props
       >
         <ul class="flex items-center gap-4 list-none">
           <li class="hidden md:block">
-            <NavLink href="/docs">
-              Docs
-            </NavLink>
+            <NavLink href="/docs">Docs</NavLink>
           </li>
           <li class="hidden lg:block">
-            <NavLink href="/blog">
-              Blog
-            </NavLink>
+            <NavLink href="/blog">Blog</NavLink>
           </li>
           <li>
             <SponsorLink />
+          </li>
+          <li>
+            <ThemeToggle client:only />
           </li>
           <li class="flex w-[38px] lg:hidden items-center -mr-2">
             <MobileMenu client:only="react">
               <nav id="mobile-menu">
                 <ul>
                   <li>
-                    <NavLink href="/docs">
-                      Documentation
-                    </NavLink>
+                    <NavLink href="/docs">Documentation</NavLink>
                   </li>
                   <li>
-                    <NavLink href="/blog">
-                      Blog
-                    </NavLink>
+                    <NavLink href="/blog">Blog</NavLink>
                   </li>
                 </ul>
               </nav>

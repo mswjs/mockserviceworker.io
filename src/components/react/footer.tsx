@@ -16,26 +16,26 @@ export function Footer({ isCompact }: { isCompact?: boolean }): JSX.Element {
     <footer
       className={cls(
         'footer',
-        'py-10 text-sm font-medium text-neutral-400',
-        !isCompact && 'border-t border-neutral-800',
+        'py-10 text-sm font-medium text-neutral-500 dark:text-neutral-400',
+        !isCompact && 'border-t border-neutral-200 dark:border-neutral-800'
       )}
     >
       <Container isFluid={isCompact}>
         {isCompact ? (
           <Grid>
-            <div className="pb-12 border-t col-span-full xl:col-span-10 xl:col-start-4 border-neutral-800" />
+            <div className="pb-12 border-t col-span-full xl:col-span-10 xl:col-start-4 border-neutral-200 dark:border-neutral-800" />
           </Grid>
         ) : null}
         <Grid className="sm:grid-cols-6 gap-y-16">
           <div
             className={cls(
-              isCompact ? 'xl:col-span-3 xl:col-start-4' : 'sm:col-span-6',
+              isCompact ? 'xl:col-span-3 xl:col-start-4' : 'sm:col-span-6'
             )}
           >
-            <p className="text-neutral-200 font-medium">
+            <p className="text-neutral-800 dark:text-neutral-200 font-medium">
               &copy; {currentYear} Mock Service Worker
             </p>
-            <p className="font-normal" aria-hidden="true">
+            <p className="font-normal text-neutral-500 dark:text-neutral-400">
               Created with <HeartIcon className="w-3.5 inline text-orange" /> by{' '}
               <a href="https://twitter.com/kettanaito" target="_blank">
                 kettanaito
@@ -45,11 +45,11 @@ export function Footer({ isCompact }: { isCompact?: boolean }): JSX.Element {
           </div>
 
           <div className="sm:col-span-2">
-            <h4 className="mb-8 font-bold tracking-widest uppercase text-md">
+            <h4 className="mb-8 font-bold tracking-widest uppercase text-md text-black dark:text-neutral-400">
               Library
             </h4>
             <nav>
-              <ul className="space-y-3 list-none text-white">
+              <ul className="space-y-3 list-none text-neutral-500 dark:text-white">
                 <li>
                   <a href="/">Home</a>
                 </li>
@@ -64,11 +64,11 @@ export function Footer({ isCompact }: { isCompact?: boolean }): JSX.Element {
           </div>
 
           <div className="sm:col-span-2">
-            <h4 className="mb-8 font-bold tracking-widest uppercase text-md">
+            <h4 className="mb-8 font-bold tracking-widest uppercase text-md text-black dark:text-neutral-400">
               Resources
             </h4>
             <nav>
-              <ul className="space-y-3 list-none text-white">
+              <ul className="space-y-3 list-none text-neutral-500 dark:text-white">
                 <li>
                   <a href="/docs/getting-started">Getting started</a>
                 </li>
@@ -83,11 +83,11 @@ export function Footer({ isCompact }: { isCompact?: boolean }): JSX.Element {
           </div>
 
           <div className="sm:col-span-2">
-            <h4 className="mb-8 font-bold tracking-widest uppercase text-md">
+            <h4 className="mb-8 font-bold tracking-widest uppercase text-md text-black dark:text-neutral-400">
               Community
             </h4>
             <nav>
-              <ul className="space-y-3 list-none text-white">
+              <ul className="space-y-3 list-none text-neutral-500 dark:text-white">
                 <li>
                   <a
                     href="https://github.com/mswjs/msw"
@@ -125,7 +125,7 @@ export function Footer({ isCompact }: { isCompact?: boolean }): JSX.Element {
 }
 
 export function SocialLinksBlock(
-  props: React.HTMLAttributes<HTMLUListElement>,
+  props: React.HTMLAttributes<HTMLUListElement>
 ) {
   return (
     <ul className={cls('flex items-center gap-1 mt-5 -ml-2', props.className)}>
@@ -133,7 +133,7 @@ export function SocialLinksBlock(
         <a
           href="https://github.com/mswjs"
           aria-label="GitHub organization"
-          className="flex p-2 hover:text-white"
+          className="flex p-2 text-neutral-500  dark:hover:text-white"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -144,7 +144,7 @@ export function SocialLinksBlock(
         <a
           href="https://twitter.com/ApiMocking"
           aria-label="Twitter account"
-          className="flex p-2 hover:text-white"
+          className="flex p-2 text-neutral-500  dark:hover:text-white"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -155,7 +155,7 @@ export function SocialLinksBlock(
         <a
           href="https://youtube.com/c/MockServiceWorker"
           aria-label="YouTube channel"
-          className="flex p-2 hover:text-white"
+          className="flex p-2 text-neutral-500  dark:hover:text-white"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -166,7 +166,7 @@ export function SocialLinksBlock(
         <a
           href={DISCORD_URL}
           arial-label="Discord server"
-          className="flex p-2 hover:text-white"
+          className="flex p-2 text-neutral-500  dark:hover:text-white"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -177,7 +177,7 @@ export function SocialLinksBlock(
         <a
           href="https://opencollective.com/mswjs"
           aria-label="Open Collective page"
-          className="flex p-2 hover:text-white"
+          className="flex p-2 text-neutral-500  dark:hover:text-white"
           rel="noopener noreferrer"
           target="_blank"
         >

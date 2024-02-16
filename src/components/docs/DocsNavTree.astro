@@ -14,7 +14,7 @@ const { items, itemKind, className } = Astro.props
 ---
 
 <ul class:list={[
-  { 'pl-3 ml-1 border-l border-neutral-700': itemKind === 'group' },
+  { 'pl-3 ml-1 border-l border-neutral-300 dark:border-neutral-700': itemKind === 'group' },
   className,
   'text-sm font-medium'
 ]}>

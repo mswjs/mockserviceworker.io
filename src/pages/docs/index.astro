@@ -11,13 +11,13 @@ const { Content, headings, remarkPluginFrontmatter } = await indexPage.render()
 const editUrl = getGitHubEditUrl(indexPage.id)
 ---
 
-<DocsPage 
+<DocsPage
   {...indexPage.data}
   lastModifiedAt={remarkPluginFrontmatter.lastModifiedAt}
   editUrl={editUrl}
   headings={headings}
   isFluid={true}
-  displayV1DocsBanner={true}
+  displayV1DocsBanner={false}
 >
   <Content />
 </DocsPage>

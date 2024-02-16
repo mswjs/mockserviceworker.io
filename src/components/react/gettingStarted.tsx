@@ -5,16 +5,18 @@ import { PageHeaderSubtitle } from './pageHeader'
 
 export function GettingStarted(): JSX.Element {
   return (
-    <div className="hero-gradient items-center py-24 text-center bg-neutral-800 bg-opacity-40 border-t-neutral-800 border-y border-b-neutral-800 -mb-px">
+    <div className="hero-gradient items-center py-24 text-center bg-white dark:bg-neutral-800 dark:bg-opacity-40 border-neutral-200 dark:border-neutral-800 border-y -mb-px">
       <Container>
         <MswBlockItem />
 
         <div className="max-w-2xl mx-auto">
           <h2 className="mt-12 mb-8 capitalize">Ship better products today.</h2>
           <PageHeaderSubtitle className="text-left md:text-center">
-            <span className="text-white">Mock Service Worker</span> is the best
-            way to integrate API mocking across your entire stack. Test,
-            prototype, and debug withouth sacrificing your application's
+            <span className="text-black dark:text-white">
+              Mock Service Worker
+            </span>{' '}
+            is the best way to integrate API mocking across your entire stack.
+            Test, prototype, and debug withouth sacrificing your application's
             integrity. Give it a try, it's open-source and free!
           </PageHeaderSubtitle>
 

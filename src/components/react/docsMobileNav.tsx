@@ -114,7 +114,7 @@ export const MobileMenuContainer = forwardRef<
       ref={ref}
       {...props}
       className={cls(
-        'fixed block top-[60px] bg-neutral-950 inset-0 max-h-[100vh] z-[5]',
+        'fixed block top-[60px] bg-white dark:bg-neutral-950 inset-0 max-h-[100vh] z-[5]',
         props.className,
       )}
       style={{ display: isOpen ? 'block' : 'none' }}

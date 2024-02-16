@@ -1,23 +1,27 @@
 ---
-import { type CollectionEntry } from "astro:content";
+import { type CollectionEntry } from 'astro:content'
 import BaseHead from '../components/BaseHead.astro'
 import Header from '../components/Header.astro'
 import { Footer } from '../components/react/footer'
 import { Grid } from '../components/react/grid'
-import { Container } from "../components/react/container";
-import FormattedDate from '../components/FormattedDate.astro';
+import { Container } from '../components/react/container'
+import FormattedDate from '../components/FormattedDate.astro'
 import DocsNavTree from '../components/docs/DocsNavTree.astro'
 import TableOfContents from '../components/docs/DocsTableOfContents.astro'
-import DocsSidebarPartners from "../components/docs/DocsSidebarPartners.astro";
-import { type DocsItem, type DocsFrontmatter, createNavTreeBuilder } from '../utils/buildNavTree'
-import type { MarkdownHeading } from 'astro';
-import { buildHeadings } from '../utils/buildHeadings';
-import { DocsSidebarLinks } from "../components/react/docsSidebarLinks";
-import { FeedbackWidget } from "../components/react/feedbackWidget";
+import DocsSidebarPartners from '../components/docs/DocsSidebarPartners.astro'
+import {
+  type DocsItem,
+  type DocsFrontmatter,
+  createNavTreeBuilder,
+} from '../utils/buildNavTree'
+import type { MarkdownHeading } from 'astro'
+import { buildHeadings } from '../utils/buildHeadings'
+import { DocsSidebarLinks } from '../components/react/docsSidebarLinks'
+import { FeedbackWidget } from '../components/react/feedbackWidget'
 import Ads from '../components/Ads.astro'
-import { DocsMovileNav } from "../components/react/docsMobileNav";
-import { SITE_TITLE } from "../consts";
-import PageBanner from "../components/PageBanner.astro";
+import { DocsMovileNav } from '../components/react/docsMobileNav'
+import { SITE_TITLE } from '../consts'
+import PageBanner from '../components/PageBanner.astro'
 
 type Props = CollectionEntry<'docs'>['data'] & {
   lastModifiedAt: Date
@@ -35,49 +39,49 @@ const navTree: Array<DocsItem> = [
   {
     kind: 'group',
     title: 'Basics',
-    children: builder.get('basics/**/*.mdx')
+    children: builder.get('basics/**/*.mdx'),
   },
   {
     kind: 'group',
     title: 'Concepts',
-    children: builder.get('concepts/**/*.mdx')
+    children: builder.get('concepts/**/*.mdx'),
   },
   {
     kind: 'group',
     title: 'Network behavior',
-    children: builder.get('network-behavior/**/*.mdx')
+    children: builder.get('network-behavior/**/*.mdx'),
   },
   {
     kind: 'group',
     title: 'Integrations',
-    children: builder.get('integrations/**/*.mdx')
+    children: builder.get('integrations/**/*.mdx'),
   },
   {
     kind: 'group',
     title: 'API',
-    children: builder.get('api/**/*.mdx')
+    children: builder.get('api/**/*.mdx'),
   },
   {
     kind: 'group',
     title: 'CLI',
-    children: builder.get('cli/**/*.mdx')
+    children: builder.get('cli/**/*.mdx'),
   },
   {
     kind: 'group',
-    title: "Best practices",
-    children: builder.get('best-practices/**/*.mdx')
+    title: 'Best practices',
+    children: builder.get('best-practices/**/*.mdx'),
   },
   {
     kind: 'group',
     title: 'Recipes',
-    children: builder.get('recipes/**/*.mdx')
-  }
+    children: builder.get('recipes/**/*.mdx'),
+  },
 ]
 
 const { props: page } = Astro
 
 const nestedHeadings = buildHeadings(page.headings || [], {
-  maxDepth: page.tableOfContents?.maxDepth
+  maxDepth: page.tableOfContents?.maxDepth,
 })
 const lastModifiedAt = new Date(page.lastModifiedAt)
 
@@ -85,7 +89,7 @@ const shouldDisplayAds = import.meta.env.ADS
 ---
 
 <!doctype html>
-<html lang="en" data-theme="dark" transition:animate="none">
+<html lang="en" transition:animate="none">
   <head>
     <BaseHead
       title={page.title}
@@ -95,11 +99,25 @@ const shouldDisplayAds = import.meta.env.ADS
     />
   </head>
   <body>
-    {page.displayV1DocsBanner ? (
-      <PageBanner>
-        <p>You are viewing the docs for <strong>MSW 2.0</strong>. To access the 1.x docs <a href="https://v1.mswjs.io/" class="text-orange hover:underline" target="_blank" rel="noopener noreferrer">click here</a>.</p>
-      </PageBanner>
-    ) : null}
+    {
+      page.displayV1DocsBanner ? (
+        <PageBanner>
+          <p>
+            You are viewing the docs for <strong>MSW 2.0</strong>. To access the
+            1.x docs{' '}
+            <a
+              href="https://v1.mswjs.io/"
+              class="text-orange hover:underline"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              click here
+            </a>
+            .
+          </p>
+        </PageBanner>
+      ) : null
+    }
     <Header isFluid={page.isFluid} />
     <main>
       <Container isFluid={page.isFluid}>
@@ -113,8 +131,13 @@ const shouldDisplayAds = import.meta.env.ADS
         <article>
           <Grid className="relative">
             <!-- Nav tree -->
-            <section class="hidden xl:block xl:w-1/5 xl:col-span-3 xl:fixed xl:top-[60px]">
-              <nav id="docs-nav-tree" class="py-10 pr-10 overflow-y-auto h-[calc(100vh_-_60px)]">
+            <section
+              class="hidden xl:block xl:w-1/5 xl:col-span-3 xl:fixed xl:top-[60px]"
+            >
+              <nav
+                id="docs-nav-tree"
+                class="py-10 pr-10 overflow-y-auto h-[calc(100vh_-_60px)]"
+              >
                 <DocsNavTree items={navTree} />
               </nav>
             </section>
@@ -123,30 +146,37 @@ const shouldDisplayAds = import.meta.env.ADS
             <div class="mdx py-10 sm:col-span-9 xl:col-start-4 xl:col-span-7">
               <header class="mb-8">
                 <h1 class="mb-3">{page.title}</h1>
-                {page.description ? (
-                  <p class="mb-6 text-lg text-neutral-400 font-medium">{page.description}</p>
-                ) : null}
-                {shouldDisplayAds ? (
-                  <Ads />
-                ) : null}
+                {
+                  page.description ? (
+                    <p class="mb-6 text-lg text-neutral-500 dark:text-neutral-400 font-medium">
+                      {page.description}
+                    </p>
+                  ) : null
+                }
+                {shouldDisplayAds ? <Ads /> : null}
               </header>
-              <div class="prose max-w-none">
+              <div
+                class="prose max-w-none dark:text-neutral-400 text-neutral-600"
+              >
                 <slot />
               </div>
-              <footer class="justify-between pt-5 mt-10 text-sm font-medium border-t text-neutral-400 border-neutral-800 md:flex">
+              <footer
+                class="justify-between pt-5 mt-10 text-sm font-medium border-t text-neutral-500 dark:text-neutral-400 border-neutral-200 dark:border-neutral-800 md:flex"
+              >
                 <p>
-                  {lastModifiedAt ? (
-                    <span>
-                      Last updated on{' '}
-                        <FormattedDate date={lastModifiedAt} />
-                    </span>
-                  ) : null}
+                  {
+                    lastModifiedAt ? (
+                      <span>
+                        Last updated on <FormattedDate date={lastModifiedAt} />
+                      </span>
+                    ) : null
+                  }
                 </p>
                 <a
                   href={page.editUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="text-white hover:underline"
+                  class="text-black dark:text-white hover:underline"
                 >
                   Edit this page on GitHub
                 </a>
@@ -155,25 +185,33 @@ const shouldDisplayAds = import.meta.env.ADS
             </div>
 
             <!-- Table of contents -->
-            <aside class="hidden py-10 pl-5 text-sm font-medium text-neutral-400 lg:block sm:col-span-3 xl:col-span-2">
+            <aside
+              class="hidden py-10 pl-5 text-sm font-medium text-neutral-400 lg:block sm:col-span-3 xl:col-span-2"
+            >
               <div class="sticky top-28">
-                <div class="flex flex-col gap-8 h-[calc(100vh_-_2.5rem_-_60px)] pb-12 overflow-x-hidden">
-                  {nestedHeadings.length > 0 ? (
-                    <section class="min-h-0 overflow-y-auto">
-                      <h4 class="text-xs mb-2 font-bold tracking-widest text-white uppercase">
-                        Contents
-                      </h4>
-                      <TableOfContents headings={nestedHeadings}  />
-                    </section>
-                  ) : null}
-  
-                    <DocsSidebarLinks />
-                    <div>
-                      <h4 class="text-xs mb-2 font-bold tracking-widest text-white uppercase">
-                        Partners
-                      </h4>
-                      <DocsSidebarPartners />
-                    </div>
+                <div
+                  class="flex flex-col gap-8 h-[calc(100vh_-_2.5rem_-_60px)] pb-12 overflow-x-hidden"
+                >
+                  {
+                    nestedHeadings.length > 0 ? (
+                      <section class="min-h-0 overflow-y-auto">
+                        <h4 class="text-xs mb-2 font-bold tracking-widest text-black dark:text-white uppercase">
+                          Contents
+                        </h4>
+                        <TableOfContents headings={nestedHeadings} />
+                      </section>
+                    ) : null
+                  }
+
+                  <DocsSidebarLinks />
+                  <div>
+                    <h4
+                      class="text-xs mb-2 font-bold tracking-widest text-black dark:text-white uppercase"
+                    >
+                      Partners
+                    </h4>
+                    <DocsSidebarPartners />
+                  </div>
                 </div>
               </div>
             </aside>
@@ -183,47 +221,77 @@ const shouldDisplayAds = import.meta.env.ADS
     </main>
 
     <Footer isCompact={true} />
+    <script is:inline>
+      // Set the theme based on the user's preference
+      const theme = (() => {
+        if (
+          typeof localStorage !== 'undefined' &&
+          localStorage.getItem('theme')
+        ) {
+          return localStorage.getItem('theme')
+        }
+        // If the user hasn't explicitly chosen light or dark, we use the prefers-color-scheme media query
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          return 'dark'
+        }
+        return 'light'
+      })()
+
+      if (theme === 'light') {
+        document.documentElement.classList.remove('dark')
+      } else {
+        document.documentElement.classList.add('dark')
+      }
+
+      window.localStorage.setItem('theme', theme)
+    </script>
+
+    <script is:inline>
+      {
+        const NAV_TREE_SCROLL_KEY = 'nav-tree-scroll'
+
+        const docsNavTree = document.getElementById('docs-nav-tree')
+        const storedScrollValue = sessionStorage.getItem(NAV_TREE_SCROLL_KEY)
+        const storedScrollPosition = storedScrollValue
+          ? parseInt(storedScrollValue, 10)
+          : undefined
+        const activeDocsLink =
+          document.getElementsByClassName('docs-link-active')[0]
+
+        const scrollToActiveLink = () => {
+          // If there's no stored scroll position, scroll to the
+          // currently active link in the nav tree.
+          activeDocsLink.scrollIntoView({
+            block: 'center',
+            behavior: 'instant',
+          })
+        }
+
+        if (storedScrollPosition == null) {
+          scrollToActiveLink()
+        } else {
+          docsNavTree.scrollTop = storedScrollPosition
+
+          if (activeDocsLink) {
+            const observer = new IntersectionObserver(
+              ([entry]) => {
+                if (!entry.isIntersecting) {
+                  scrollToActiveLink()
+                }
+
+                observer.disconnect()
+              },
+              { root: null, threshold: 0.1 },
+            )
+
+            observer.observe(activeDocsLink)
+          }
+        }
+
+        window.addEventListener('beforeunload', () => {
+          sessionStorage.setItem(NAV_TREE_SCROLL_KEY, docsNavTree.scrollTop)
+        })
+      }
+    </script>
   </body>
 </html>
-
-<script is:inline>
-	{
-    const NAV_TREE_SCROLL_KEY = 'nav-tree-scroll'
-
-		const docsNavTree = document.getElementById('docs-nav-tree');
-		const storedScrollValue = sessionStorage.getItem(NAV_TREE_SCROLL_KEY);
-    const storedScrollPosition = storedScrollValue ? parseInt(storedScrollValue, 10) : undefined
-    const activeDocsLink = document.getElementsByClassName('docs-link-active')[0]
-
-    const scrollToActiveLink = () => {
-      // If there's no stored scroll position, scroll to the
-      // currently active link in the nav tree.
-      activeDocsLink.scrollIntoView({
-        block: 'center',
-        behavior: 'instant'
-      })
-    }
-
-    if (storedScrollPosition == null) {
-      scrollToActiveLink()
-    } else {
-      docsNavTree.scrollTop = storedScrollPosition
-
-      if (activeDocsLink) {
-        const observer = new IntersectionObserver(([entry]) => {
-          if (!entry.isIntersecting) {
-            scrollToActiveLink()
-          }
-
-          observer.disconnect()
-        }, { root: null, threshold: 0.1 })
-
-        observer.observe(activeDocsLink)
-      }
-    }
-
-    window.addEventListener('beforeunload', () => {
-			sessionStorage.setItem(NAV_TREE_SCROLL_KEY, docsNavTree.scrollTop);
-		});
-	}
-</script>

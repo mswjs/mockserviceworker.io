@@ -1,80 +1,91 @@
 ---
-import type { CollectionEntry } from 'astro:content';
-import { ArrowLeftIcon } from '@heroicons/react/24/solid';
-import BaseHead from '../components/BaseHead.astro';
-import Header from '../components/Header.astro';
-import { Footer } from '../components/react/footer';
-import FormattedDate from '../components/FormattedDate.astro';
-import { Container } from '../components/react/container';
-import { Grid } from '../components/react/grid';
-import { Avatar } from '../components/react/avatar';
+import type { CollectionEntry } from 'astro:content'
+import { ArrowLeftIcon } from '@heroicons/react/24/solid'
+import BaseHead from '../components/BaseHead.astro'
+import Header from '../components/Header.astro'
+import { Footer } from '../components/react/footer'
+import FormattedDate from '../components/FormattedDate.astro'
+import { Container } from '../components/react/container'
+import { Grid } from '../components/react/grid'
+import { Avatar } from '../components/react/avatar'
 
-type Props = CollectionEntry<'blog'>['data'];
+type Props = CollectionEntry<'blog'>['data']
 
-const { title, description, thumbnailUrl, publishedAt, author, keywords } = Astro.props;
+const { title, description, thumbnailUrl, publishedAt, author, keywords } =
+  Astro.props
 ---
 
 <!doctype html>
-<html lang="en" data-theme="dark" transition:animate="none">
-	<head>
-		<BaseHead
-			title={title}
-			displayTitle={`${title} - Mock Service Worker`}
-			description={description}
-			keywords={keywords}
-			author={author.name}
-		/>
-	</head>
+<html lang="en" transition:animate="none">
+  <head>
+    <BaseHead
+      title={title}
+      displayTitle={`${title} - Mock Service Worker`}
+      description={description}
+      keywords={keywords}
+      author={author.name}
+    />
+  </head>
 
-	<body>
-		<Header />
-		<main>
-			<Container>
-				<Grid>
-					<article class="lg:col-span-8 lg:col-start-3">
-						<aside class="sticky z-[2] py-2 text-sm font-medium bg-neutral-900 border-b border-neutral-800 top-[60px]">
-							<a
-								href="/blog"
-								class="inline-flex items-center gap-2 font-medium text-neutral-400 hover:text-white"
-							>
-								<ArrowLeftIcon className="w-3" />
-								Back to Blog
-							</a>
-						</aside>
-						<header class="my-16 lg:my-32 lg:text-center">
-							<div class="flex items-start md:flex-col md:items-center gap-8 sm:gap-10">
-								<img src={thumbnailUrl} alt={title} class="hidden w-24 sm:block sm:w-32 md:w-64 drop-shadow-xl" />
-								<div>
-									<h1 class="mb-4">{title}</h1>
-									<p class="mb-10 text-neutral-400 font-medium font-mono">
-										<FormattedDate date={publishedAt} />
-									</p>
-									<div class="flex md:justify-center text-left">
-										<Avatar
-											url={`/users/${author.twitterHandle}.jpg`}
-											name={author.name}
-											className="flex-shrink-0 w-16 h-16"
-										>
-											<a
-												href={`https://twitter.com/${author.twitterHandle}`}
-												class="text-left text-orange hover:underline"
-												target="_blank"
-												rel="noopener noreferrer"
-											>
-												@{author.twitterHandle}
-											</a>
-										</Avatar>
-									</div>
-								</div>
-							</div>
-						</header>
-						<div class="mdx my-16 prose lg:my-32 max-w-none">
-							<slot />
-						</div>
-					</div>
-				</Grid>
-			</Container>
-		</main>
-		<Footer />
-	</body>
+  <body>
+    <Header />
+    <main>
+      <Container>
+        <Grid>
+          <article class="lg:col-span-8 lg:col-start-3">
+            <aside
+              class="sticky z-[2] py-2 text-sm font-medium bg-neutral-50 border-neutral-200 dark:bg-neutral-900 border-b dark:border-neutral-800 top-[60px]"
+            >
+              <a
+                href="/blog"
+                class="inline-flex items-center gap-2 font-medium text-neutral-500 hover:text-black dark:text-neutral-400 dark:hover:text-white"
+              >
+                <ArrowLeftIcon className="w-3" />
+                Back to Blog
+              </a>
+            </aside>
+            <header class="my-16 lg:my-32 lg:text-center">
+              <div
+                class="flex items-start md:flex-col md:items-center gap-8 sm:gap-10"
+              >
+                <img
+                  src={thumbnailUrl}
+                  alt={title}
+                  class="hidden w-24 sm:block sm:w-32 md:w-64 drop-shadow-xl"
+                />
+                <div>
+                  <h1 class="mb-4">{title}</h1>
+                  <p
+                    class="mb-10 text-neutral-500 dark:text-neutral-400 font-medium font-mono"
+                  >
+                    <FormattedDate date={publishedAt} />
+                  </p>
+                  <div class="flex md:justify-center text-left">
+                    <Avatar
+                      url={`/users/${author.twitterHandle}.jpg`}
+                      name={author.name}
+                      className="flex-shrink-0 w-16 h-16"
+                    >
+                      <a
+                        href={`https://twitter.com/${author.twitterHandle}`}
+                        class="text-left text-orange hover:underline"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        @{author.twitterHandle}
+                      </a>
+                    </Avatar>
+                  </div>
+                </div>
+              </div>
+            </header>
+            <div class="mdx my-16 prose lg:my-32 max-w-none">
+              <slot />
+            </div>
+          </article>
+        </Grid>
+      </Container>
+    </main>
+    <Footer />
+  </body>
 </html>

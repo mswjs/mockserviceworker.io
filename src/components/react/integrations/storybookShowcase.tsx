@@ -15,11 +15,11 @@ export function StorybookBookmarkIcon(
 
 export function StorybookShowcase(): JSX.Element {
   return (
-    <div className="flex flex-col md:flex-row border border-neutral-700 rounded-lg w-full select-none overflow-hidden">
+    <div className="flex flex-col md:flex-row border border-neutral-300 dark:border-neutral-700 rounded-lg w-full select-none overflow-hidden">
       <div>
         <div className="flex-1 py-4">
           <ul>
-            <li className="mt-1.5 mb-2 px-4 uppercase font-bold text-sm text-neutral-500 tracking-widest">
+            <li className="mt-1.5 mb-2 px-4 uppercase font-bold text-sm text-neutral-600 dark:text-neutral-500 tracking-widest">
               Components
             </li>
             <li>
@@ -30,7 +30,7 @@ export function StorybookShowcase(): JSX.Element {
                 <span className="font-bold">ProductDetail</span>
               </p>
               <ul>
-                <li className="px-8 py-0.5 bg-neutral-800 font-bold">
+                <li className="px-8 py-0.5 bg-neutral-100 dark:bg-neutral-800 font-bold">
                   <StorybookBookmarkIcon className="inline-block align-baseline text-[#37d5d3]" />{' '}
                   Idle
                 </li>
@@ -47,7 +47,7 @@ export function StorybookShowcase(): JSX.Element {
           </ul>
         </div>
       </div>
-      <div className="flex-1 flex items-center justify-center p-12 bg-neutral-800">
+      <div className="flex-1 flex items-center justify-center p-12 bg-neutral-100 dark:bg-neutral-800">
         <StorybookIcon className="fill-[#ff528c] w-12" />
       </div>
     </div>

@@ -8,7 +8,7 @@ export function VercelIcon(props: React.SVGProps<SVGSVGElement>): JSX.Element {
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+      <g stroke="none" strokeWidth="1" fillRule="evenodd">
         <image
           id="vercel-logotype-light"
           x="50"

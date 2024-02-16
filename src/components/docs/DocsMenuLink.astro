@@ -14,10 +14,10 @@ const isActive = isPartiallyActiveUrl(props.href, pathname, { standalone })
 
 <a {...props} class:list={[
   props.class,
-  'inline-block py-1.5 leading-5 hover:text-white',
-  { 'text-neutral-400': !isActive },
+  'inline-block py-1.5 leading-5 hover:text-black dark:hover:text-white',
+  { 'text-neutral-500 dark:text-neutral-400': !isActive },
   { 'docs-link-active': isActive },
-  { 'text-white font-bold': isActive }
+  { 'text-black dark:text-white font-bold': isActive }
 ]}
   aria-current={isActive}
 >

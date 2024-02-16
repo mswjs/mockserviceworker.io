@@ -30,7 +30,7 @@ export function PageHeaderSubtitle(
     <p
       {...props}
       className={cls(
-        'mx-auto text-xl text-neutral-400 leading-8 font-medium',
+        'mx-auto text-xl text-neutral-500 dark:text-neutral-400 leading-8 font-medium',
         props.className
       )}
     />

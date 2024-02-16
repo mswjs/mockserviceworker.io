@@ -28,8 +28,8 @@ const isActive = getIsActive(href, pathname)
 
 <a href={href} class:list={[
 	className,
-	'px-3 py-[19px] font-bold hover:text-white',
-	{ 'menu-link-active text-white -mb-px border-b border-orange': isActive }
+	'px-3 py-[19px] font-bold hover:text-black dark:hover:text-white',
+	{ 'menu-link-active text-black dark:text-white -mb-px border-b border-orange': isActive }
 ]} {...props}>
 	<slot />
 </a>
