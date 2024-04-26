@@ -128,6 +128,19 @@ beforeEach(() => {
 })
 ```
 
+### How to set `baseURL` in Node.js?
+Create a custom higher-order function for reusing the same base path with multiple handlers.
+
+``` js
+const github = (path) => {
+  return new URL(path, 'https://github.com').href
+}
+
+http.rest.get(github('/repos/:owner/:repo'), resolver)
+```
+
+Check out [the rationale](https://github.com/mswjs/msw/pull/406#issuecomment-708519619) for the recommended approach.
+
 ## Light theme when?
 
 Whenever you have time to [open a pull request](https://github.com/mswjs/mswjs.io).
