@@ -7,7 +7,7 @@
     "@docsearch/react": "^3.5.2",
     "@heroicons/react": "^2.0.18",
     "@types/body-scroll-lock": "^3.1.0",
-    "astro": "^4.9.2",
+    "astro": "^4.16.18",
     "body-scroll-lock": "4.0.0-beta.0",
     "minimatch": "^9.0.3",
     "react": "18",
