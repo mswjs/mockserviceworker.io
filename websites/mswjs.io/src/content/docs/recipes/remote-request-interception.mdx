@@ -1,0 +1,199 @@
+---
+title: Remote Request Interception
+---
+
+import { Warning } from '@mswjs/shared/components/react/warning'
+import { Success } from '@mswjs/shared/components/react/success'
+
+The [`setupServer`](/docs/api/setup-server) and [`setupWorker`](/docs/api/setup-worker) APIs allow you to control the network within the same Node.js process or a browser tab, respectively. When testing full-stack applications, you may want for your test to affect the network in a different process, like your application's server runtime. For that, MSW provides a _remote_ interception mechanism.
+
+## Fundamentals
+
+Remote request interception (or _Cross-Process Request Interception_) requires two processes:
+
+1. Sender (either a browser or Node.js process).
+1. Receiver (**must** be a Node.js process; e.g. your test).
+
+The Sender process is signalling the outgoing requests to the Receiver process to handle. The inter-process communication is achieved via a WebSocket connection where the Sender is the client, and the Receiver is the server.
+
+## Use cases
+
+- ...
+
+## Application
+
+In this recipe, we will use a [Remix](https://remix.run/) application that defines a server-side `loader` to fetch the user before rendering a greeting message in the `/dashboard` route. The application part looks roughly like this:
+
+```js
+// app/routes/dashboard.jsx
+export async function loader() {
+  const response = await fetch('https://example.com/user')
+  const { user } = await response.json()
+
+  return { user }
+}
+
+export default function Dashboard() {
+  const { user } = useLoaderData<typeof loader>()
+
+  return <p>Hello, {user.firstName}!</p>
+}
+```
+
+Remote request interception is a feature within MSW, which means it is framework-agnostic. You don't have to prepare your application in any special way for it to work. You do, however, need to enable the remote interception. Let's learn how.
+
+## Example
+
+### Step 1: Enable remote handling (application)
+
+Follow the [Node.js integration guide](/docs/integrations/node) appropriate for your framework, and then set the `remote.enabled` option to `true` in the `server.listen()` call:
+
+```js {5-7}
+// app/entry.server.jsx
+const server = setupServer(...handlers)
+
+server.listen({
+  remote: {
+    enabled: true,
+  },
+})
+```
+
+Setting `remote.enabled` will tell MSW that there is a remote process responsible for handling the request that happen in _this_ runtime. You may still provide the base `handlers` to act as fallback handlers in case the remote counterpart doesn't know how to handle a certain request.
+
+### Step 2: Set up remote server (tests)
+
+...
+
+Below, find an example of using `setupRemoteServer` in a [Playwright](https://playwright.dev/) test:
+
+```js {5-12,15,19} /setupRemoteServer/
+// e2e/dashboard.test.js
+import { http } from 'msw'
+import { setupRemoteServer } from 'msw/node'
+
+const remote = setupRemoteServer(
+  http.get('https://example.com/user', () => {
+    return Response.json({
+      id: 'abc-123',
+      firstName: 'John',
+    })
+  }),
+)
+
+test.beforeAll(async () => {
+  await remote.listen()
+})
+
+test.afterAll(async () => {
+  await remote.close()
+})
+
+test('renders the user greeting', async ({ page }) => {
+  await page.goto('/dashboard')
+  await expect(page.getByText('Hello, John!')).toBeVisible()
+})
+```
+
+The `setupRemoteServer`, despite looking similar to the `setupServer` you may use in integration testing, does _not_ control the network within the test's process. Instead, it acts as the source of truth for the network in a _different_, remote process (thus the name), while providing the same familiar API to declare request handlers and provision overrides.
+
+<Success>
+  There are some important things to keep in mind when using remote request
+  interception. Please find them in the [Best practices](#best-practices)
+  section below.
+</Success>
+
+## Runtime request handlers
+
+You can apply [runtime request handlers](/docs/best-practices/network-behavior-overrides) to the remote interception using the `remote.use()` method that works identically to `server.use()`/`worker.use()`:
+
+```js {2-6} /remote.use/
+test('handles network errors in the dashboard', async () => {
+  remote.use(
+    http.get('https://example.com/user', () => {
+      return Response.error()
+    }),
+  )
+})
+```
+
+<Warning>
+  The runtime request handlers are prepended to the _same_ `remote` instance,
+  which may introduce a shared state across different tests, causing flakiness.
+  You should provide proper isolation by either running your test cases
+  sequentially or spawning a new instance of your application in every test
+  case. <br />
+  <br />
+  Learn more in the [Best practices](#best-practices) below.
+</Warning>
+
+## Best practices
+
+### Await `.listen()` and `.close()`
+
+Await `remote.listen()` and `remote.close()` calls. Unlike,`setupServer`, `setupRemoteServer` actually spawns a WebSocket server. Awaiting the aforementioned methods ensures that the server is started and stopped correctly.
+
+```js {4,8}
+// e2e/dashboard.test.js
+
+test.beforeAll(async () => {
+  await remote.listen()
+})
+
+test.afterAll(async () => {
+  await remote.close()
+})
+```
+
+### Avoid shared state
+
+The single `remote` instance and the handlers it keeps can become a shared state across your tests in no time. There are two primary ways to avoid that.
+
+#### (Recommended) Isolated app instances
+
+Whenever possible, spawn a new application instance within individual tests.
+
+```js
+test('handles network errors in the dashboard', async ({ page }) => {
+  await remote.boundary(async () => {
+    remote.use()
+
+    await spawnApp({ contextId: remote.contextId })
+
+    await page.goto('/dashboard')
+    // ...
+  })()
+})
+```
+
+#### Sequential test run
+
+You can ensure that your tests run _sequentially_, ...
+
+```js {4,8}
+// e2e/dashboard.test.js
+
+// Tell Playwright to run these test cases sequentially.
+test.describe.configure({ mode: 'serial' })
+
+test.afterEach(() => {
+  // Remove any runtime handlers introduced in individual tests.
+  remote.resetHandlers()
+})
+
+test('first test', () => {
+  remote.use(http.get('https://example.com/one', resolverOne))
+})
+
+test('second test', () => {
+  remote.use(http.get('https://example.com/one', resolverTwo))
+})
+```
+
+This way, despite the two tests handling the same server-side `GET https://example.com/one` in a different way, that handling will not conflict since (1) the tests run sequentially; (2) the runtime handlers they add are reset after each test.
+
+<Warning>
+  Running your tests sequentially may have a negative impact on the test suite
+  performance. Please consider it as a last resort, and prefer the isolated app
+  instances approach instead.
+</Warning>
