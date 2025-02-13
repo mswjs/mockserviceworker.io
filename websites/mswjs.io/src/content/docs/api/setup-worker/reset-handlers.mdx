@@ -9,10 +9,10 @@ description: Reset request handlers to the initial list.
 The `worker.resetHandlers()` method can be called without any arguments. When done so, all the [Runtime request handlers](/docs/concepts/request-handler#runtime-request-handler) (those prepended via `worker.use()`) will be removed.
 
 ```js {4}
-const worker = setupWorker(http.get('/resource', resolver))
-worker.use(http.post('/user', resolver))
+const worker = setupWorker(http.get("/resource", resolver));
+worker.use(http.post("/user", resolver));
 
-worker.resetHandlers()
+worker.resetHandlers();
 // The "POST /user" runtime request handler is removed,
 // and only the "GET /resource" initial request handler remains.
 ```
@@ -20,14 +20,42 @@ worker.resetHandlers()
 The `worker.resetHandlers()` method also accepts an optional list of request handlers spread as its arguments. When such a list is provided, the initial request handlers passed to `setupWorker()` will also be removed, and the given list of request handlers would act as the initial handlers.
 
 ```js
-const worker = setupWorker(http.get('/resource', resolver))
-worker.use(http.post('/user', resolver))
+const worker = setupWorker(http.get("/resource", resolver));
+worker.use(http.post("/user", resolver));
 
-worker.resetHandlers(http.patch('/book/:bookId', resolver))
+worker.resetHandlers(http.patch("/book/:bookId", resolver));
 // Both the runtime "POST /user" and the initial "GET /resource"
 // request handlers are removed, and only the "PATCH /book/:bookId"
 // request handler remains.
 ```
+
+## How it works
+
+The `resetHandlers` method resets the currently active request handlers. When the worker is initialized using [`setupWorker`](/docs/api/setup-worker/#call-signature), the handlers provided via the spread argument are stored in `this.initialHandlers` and also assigned to `this.handlers`.
+
+```js
+// worker.resetHandlers
+public resetHandlers(
+  ...nextHandlers: Array<RequestHandler | WebSocketHandler>
+): void {
+  this.handlersController.reset(nextHandlers);
+}
+
+// this.handlersController.reset
+public reset(
+  nextHandlers: Array<RequestHandler | WebSocketHandler>
+): void {
+  this.handlers = nextHandlers.length > 0
+    ? [...nextHandlers]
+    : [...this.initialHandlers];
+}
+```
+
+Handlers added via `worker.use` are appended only to `this.handlers` without modifying `this.initialHandlers`.
+
+Calling `resetHandlers` without arguments restores the handlers to `this.initialHandlers`, whereas calling it with arguments replaces the current handlers with the provided ones.
+
+The [SetupApi.ts](https://github.com/mswjs/msw/blob/main/src/core/SetupApi.ts) file defines the core API for initializing and managing request handlers in MSW, including functions for adding, resetting, and restoring handlers.
 
 ## Related materials
 
