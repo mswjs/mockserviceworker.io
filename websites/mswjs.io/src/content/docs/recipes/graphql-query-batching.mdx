@@ -57,8 +57,9 @@ You can mock batched GraphQL queries in Apollo by introducing a custom `batchedG
 ```js
 import { http, HttpResponse, getResponse, bypass } from 'msw'
 
-function batchedGraphQLQuery(url, handlers) {
+export function batchedGraphQlQuery(url, handlers) {
   return http.post(url, async ({ request }) => {
+    const requestClone = request.clone()
     const payload = await request.clone().json()
 
     // Ignore non-batched GraphQL queries.
@@ -67,10 +68,10 @@ function batchedGraphQLQuery(url, handlers) {
     }
 
     const responses = await Promise.all(
-      payload.map((query) => {
+      payload.map(async (query) => {
         // Construct an individual query request
         // to the same URL but with an unwrapped query body.
-        const queryRequest = new Request(request, {
+        const queryRequest = new Request(requestClone, {
           body: JSON.stringify(query),
         })
 
